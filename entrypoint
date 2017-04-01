@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+set -xe
+
+: "${GITHUB_USER?Need a GitHub username}"
+: "${GITHUB_REPO?Need a repository name}"
+: "${GITHUB_BRANCH?Need a GitHub branch}"
+: "${NPM_TOKEN?Need a npm token}"
+: "${PAKAGE_VERSION?Need a package version}"
+: "${CI_EMAIL:=Need a email for ci}"
+
+git config --global user.name "CI-NPM-PUBLISHER"
+git config --global user.email $CI_EMAIL
+
+if [[ -z "${GITHUB_TOKEN}" ]]; then
+  git clone -b "$GITHUB_BRANCH" https://github.com/"$GITHUB_USER"/"$GITHUB_REPO".git
+else
+  git clone -b "$GITHUB_BRANCH" https://"$GITHUB_TOKEN"@github.com/"$GITHUB_USER"/"$GITHUB_REPO".git
+fi
+
+cd $GITHUB_REPO
+
+npm version $PAKAGE_VERSION -m "Release: $PAKAGE_VERSION"
+echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+npm publish
+git push --tags
+git push origin $GITHUB_BRANCH
+
+sleep 3h
+
+
+
+
+#git checkout develop
+#git merge $GITHUB_BRANCH
+#git push origin develop
+
+#git checkout master
+#g#it merge $GITHUB_BRANCH
+#git push origin master
