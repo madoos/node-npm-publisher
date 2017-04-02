@@ -6,7 +6,7 @@ set -xe
 : "${GITHUB_REPO?Need a repository name}"
 : "${GITHUB_BRANCH?Need a GitHub branch}"
 : "${NPM_TOKEN?Need a npm token}"
-: "${PAKAGE_VERSION?Need a package version}"
+: "${PACKAGE_VERSION?Need a package version}"
 : "${CI_EMAIL:=Need a email for ci}"
 
 git config --global user.name "CI-NPM-PUBLISHER"
@@ -20,15 +20,14 @@ fi
 
 cd $GITHUB_REPO
 
-github_changelog_generator -t $GITHUB_TOKEN
-git add CHANGELOG.md && git commit -m "Added changelog for version $PAKAGE_VERSION"
-
-npm version $PAKAGE_VERSION -m "Release: $PAKAGE_VERSION"
+npm version $PACKAGE_VERSION -m "Release: $PACKAGE_VERSION"
 echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
 npm publish
 
 git push --tags
+github_changelog_generator -t $GITHUB_TOKEN
+git add CHANGELOG.md && git commit -m "Added changelog for version $PACKAGE_VERSION"
 git push origin $GITHUB_BRANCH
 
-hub pull-request -m "Updated to version $PAKAGE_VERSION" -b develop
-hub pull-request -m "Updated to version $PAKAGE_VERSION" -b master
+hub pull-request -m "Updated to version $PACKAGE_VERSION" -b develop
+hub pull-request -m "Updated to version $PACKAGE_VERSION" -b master

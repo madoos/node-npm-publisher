@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+VERSION=$1
+
+: "${VERSION:=latest}"
+
+docker rmi -f madoos/node-npm-publisher:"$VERSION"
