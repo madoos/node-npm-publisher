@@ -20,21 +20,15 @@ fi
 
 cd $GITHUB_REPO
 
+github_changelog_generator -t $GITHUB_TOKEN
+git add CHANGELOG.md && git commit -m "Added changelog for version $PAKAGE_VERSION"
+
 npm version $PAKAGE_VERSION -m "Release: $PAKAGE_VERSION"
 echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
 npm publish
+
 git push --tags
 git push origin $GITHUB_BRANCH
 
-sleep 3h
-
-
-
-
-#git checkout develop
-#git merge $GITHUB_BRANCH
-#git push origin develop
-
-#git checkout master
-#g#it merge $GITHUB_BRANCH
-#git push origin master
+hub pull-request -m "Updated to version $PAKAGE_VERSION" -b develop
+hub pull-request -m "Updated to version $PAKAGE_VERSION" -b master
