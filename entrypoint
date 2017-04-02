@@ -5,9 +5,10 @@ set -xe
 : "${GITHUB_USER?Need a GitHub username}"
 : "${GITHUB_REPO?Need a repository name}"
 : "${GITHUB_BRANCH?Need a GitHub branch}"
+: "${GITHUB_TOKEN?Need a GitHub token}"
 : "${NPM_TOKEN?Need a npm token}"
 : "${PACKAGE_VERSION?Need a package version}"
-: "${CI_EMAIL:=Need a email for ci}"
+: "${CI_EMAIL:=Need a email for CI}"
 
 git config --global user.name "CI-NPM-PUBLISHER"
 git config --global user.email $CI_EMAIL
@@ -30,4 +31,4 @@ git add CHANGELOG.md && git commit -m "Added changelog for version $PACKAGE_VERS
 git push origin $GITHUB_BRANCH
 
 hub pull-request -m "Updated to version $PACKAGE_VERSION" -b develop
-hub pull-request -m "Updated to version $PACKAGE_VERSION" -b master
+hub pull-request -m "Updated to version $PACKAGE_VERSION" -b masterp  

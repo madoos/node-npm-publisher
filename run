@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-docker run --rm\
-  -e GITHUB_USER=CHANGE \
-  -e GITHUB_REPO=CHANGE \
-  -e GITHUB_BRANCH=CHANGE \
-  -e GITHUB_TOKEN=CHANGE \
-  -e NPM_TOKEN=CHANGE \
-  -e PACKAGE_VERSION=CHANGE \
-  -e CI_EMAIL=CHANGE \
-  -e FORCE_COLOR=1 \
-   madoos/node-npm-publisher:latest
+
+docker run \
+-e CI_EMAIL=jenkins@gmail.com \
+-e GITHUB_REPO=kk-test \
+-e GITHUB_USER=madoos \
+-e GITHUB_BRANCH=release/test \
+-e GITHUB_TOKEN=fef891d8d1d1c445f571cee89fc5109f4d21b879 \
+-e NPM_TOKEN=f5be2333-f3bf-4a81-960c-092f377af729 \
+-e PACKAGE_VERSION=1.0.19 \
+ madoos/node-npm-publisher:latest
