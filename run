@@ -1,3 +1,11 @@
 #!/usr/bin/env bash
 
-
+  docker run --rm\
+  -e GITHUB_USER=change \
+  -e GITHUB_REPO=change \
+  -e GITHUB_BRANCH=rchange \
+  -e GITHUB_TOKEN=change \
+  -e NPM_TOKEN=change \
+  -e PACKAGE_VERSION=change \
+  -e FORCE_COLOR=1 \
+   madoos/node-npm-publisher:caseonit

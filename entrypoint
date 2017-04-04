@@ -8,10 +8,9 @@ set -xe
 : "${GITHUB_TOKEN?Need a GitHub token}"
 : "${NPM_TOKEN?Need a npm token}"
 : "${PACKAGE_VERSION?Need a package version}"
-: "${CI_EMAIL:=Need a email for CI}"
 
 git config --global user.name "CI-NPM-PUBLISHER"
-git config --global user.email $CI_EMAIL
+git config --global user.email "ci-npm-publisher@ci.com"
 
 if [[ -z "${GITHUB_TOKEN}" ]]; then
   git clone -b "$GITHUB_BRANCH" https://github.com/"$GITHUB_USER"/"$GITHUB_REPO".git
@@ -22,7 +21,7 @@ fi
 cd $GITHUB_REPO
 
 npm version $PACKAGE_VERSION -m "Release: $PACKAGE_VERSION"
-echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+printf $NPM_TOKEN > .npmrc
 npm publish
 
 git push --tags
